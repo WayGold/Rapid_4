@@ -11,17 +11,17 @@ public class ButtonScoreManager : MonoBehaviour
     [SerializeField]
     float RestBonusLength;
     [SerializeField]
-    float TimeTillRestBonus;
-    [SerializeField]
-    float TimeTillCanRest;
+    float RequiredRestTime;
+    [SerializeField, Tooltip("Ammount of time the player must work before the rest bonus can be earned")]
+    float RequiredWorkTime;
     [SerializeField]
     Text scoreText;
 
-    bool _restBonusActive = false;
-    bool _canStartRest = false;
-    bool _canRest = false;
+    bool _canRest = false;              // represents if the player has worked long enough to earn rest bonus
+    bool _restBonusEarned = false;      // represents if the player has rested long eouugh to earn rest bonus
+    bool _resting = false;              // represents whether the player is currently resting
     float _timeDifference = 0;
-    int _score;
+    int _score = 0;
 
     // Start is called before the first frame update
     void Start()
@@ -32,45 +32,54 @@ public class ButtonScoreManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!_canStartRest)
+        if(_resting)
         {
-            _timeDifference += Time.deltaTime;
-            if (_timeDifference >= TimeTillCanRest)
-            {
-                _canStartRest = true;
-                _timeDifference = 0;
-                Debug.Log("CAN START REST");
+            if(_canRest && !_restBonusEarned)
+            { 
+                _timeDifference += Time.deltaTime;
+                if(_timeDifference >= RequiredRestTime)
+                {
+                    _restBonusEarned = true;
+                    _timeDifference = 0;
+                    Debug.Log("REST BONUS EARNED");
+                }
             }
         }
-        else if (!_canRest)
-        {
-            _timeDifference += Time.deltaTime;
-            if (_timeDifference >= TimeTillRestBonus)
+        else {
+            if(!_canRest)
             {
-                _canRest = true;
-                _timeDifference = 0;
-                _restBonusActive = true;
-                Debug.Log("RESTING");
+                _timeDifference += Time.deltaTime;
+                if(_timeDifference >= RequiredWorkTime)
+                {
+                    _canRest = true;
+                    _timeDifference = 0;
+                    Debug.Log("CAN START REST");
+                }
+            }
+            else if (_restBonusEarned)
+            {
+                _timeDifference += Time.deltaTime;
+                if( _timeDifference >= RestBonusLength)
+                {
+                    _restBonusEarned = false;
+                    _canRest = false;
+                    _timeDifference = 0;
+                    Debug.Log("REST BONUS SPENT");
+                }
             }
         }
-        else if (_restBonusActive)
-        {
-            _timeDifference += Time.deltaTime;
-            if(_timeDifference >= RestBonusLength)
-            {
-                _restBonusActive = false;
-                _canRest = false;
-                _canStartRest = false;
-                _timeDifference = 0;
-                Debug.Log("REST OVER");
-            }
-        }
+        
+    }
+
+    public void ToggleResting()
+    {
+        _resting = !_resting;
     }
 
     public void OnButtonPress()
     {
         int score = 1;
-        if(_restBonusActive)
+        if(_restBonusEarned)
         {
             score *= RestBonusMultiplier;
         }
