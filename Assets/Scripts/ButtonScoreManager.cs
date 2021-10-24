@@ -6,11 +6,11 @@ using UnityEngine.UI;
 
 public class ButtonScoreManager : MonoBehaviour
 {
-    [SerializeField]
+    [SerializeField, Tooltip("The Multiplier that the player recieves when the rest bonus is active")]
     int RestBonusMultiplier;
-    [SerializeField]
+    [SerializeField, Tooltip("Ammount of time the player has their rest bonus active when working")]
     float RestBonusLength;
-    [SerializeField]
+    [SerializeField, Tooltip("Ammount of time the player must rest before the rest bonus can be earned")]
     float RequiredRestTime;
     [SerializeField, Tooltip("Ammount of time the player must work before the rest bonus can be earned")]
     float RequiredWorkTime;
