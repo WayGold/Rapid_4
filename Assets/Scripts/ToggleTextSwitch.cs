@@ -10,19 +10,19 @@ public class ToggleTextSwitch : MonoBehaviour
     Text _toggleText;
 
     [SerializeField]
-    string NormalText;
+    string OnText;
     [SerializeField]
-    string ToggleText;
+    string OffText;
 
     void Start()
     {
         _toggle = GetComponent<Toggle>();
         _toggleText = GetComponentInChildren<Text>();
-        _toggleText.text = NormalText;
+        _toggleText.text = OnText;
     }
 
     public void ToggleButton()
     {
-        _toggleText.text = _toggle.isOn ? NormalText : ToggleText;
+        _toggleText.text = _toggle.isOn ? OnText : OffText;
     }
 }
