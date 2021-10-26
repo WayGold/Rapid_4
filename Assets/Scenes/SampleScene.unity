@@ -174,8 +174,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b4649413a092bb84cb9656e91f593750, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  NormalText: Working
-  ToggleText: On Break
+  OnText: Working
+  OffText: Resting
 --- !u!114 &182073323
 MonoBehaviour:
   m_ObjectHideFlags: 0
