@@ -80,7 +80,7 @@ public class ButtonScoreManager : MonoBehaviour
         // Fatigue Level Tracking
 
         // reset tapTracker every 10 taps
-        if(tapTracker == 10){
+        if(tapTracker >= 10){
             Debug.Log("Time Since First Tap: " + _timeSinceFirstTap);
             if(_timeSinceFirstTap <= RequiredFatigueTriggerTime){
                 _fatigueVal--;
@@ -103,14 +103,17 @@ public class ButtonScoreManager : MonoBehaviour
 
     public void OnButtonPress()
     {
-        int score = 1;
-        if(_restBonusEarned)
+        if(!_resting)
         {
-            score *= RestBonusMultiplier;
-        }
-        _score += score;
-        scoreText.text = _score.ToString();
+            int score = 1;
+            if(_restBonusEarned)
+            {
+                score *= RestBonusMultiplier;
+            }
+            _score += score;
+            scoreText.text = _score.ToString();
 
-        tapTracker++;
+            tapTracker++;
+        }
     }
 }
