@@ -84,6 +84,7 @@ public class ButtonScoreManager : MonoBehaviour
             Debug.Log("Time Since First Tap: " + _timeSinceFirstTap);
             if(_timeSinceFirstTap <= RequiredFatigueTriggerTime){
                 _fatigueVal--;
+                fatigueText.text = _fatigueVal.ToString();
             }
 
             tapTracker = 0;
