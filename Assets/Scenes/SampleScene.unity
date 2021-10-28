@@ -1105,7 +1105,9 @@ MonoBehaviour:
   RestBonusLength: 3
   RequiredRestTime: 3
   RequiredWorkTime: 3
+  RequiredFatigueTriggerTime: 5
   scoreText: {fileID: 942327251}
+  fatigueText: {fileID: 1902433975}
 --- !u!4 &2012058366
 Transform:
   m_ObjectHideFlags: 0
