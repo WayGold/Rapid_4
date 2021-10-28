@@ -14,14 +14,22 @@ public class ButtonScoreManager : MonoBehaviour
     float RequiredRestTime;
     [SerializeField, Tooltip("Ammount of time the player must work before the rest bonus can be earned")]
     float RequiredWorkTime;
+    [SerializeField, Tooltip("Ammount of time the player to not trigger fatigue punishment with 10 taps")]
+    float RequiredFatigueTriggerTime;
     [SerializeField]
     Text scoreText;
+    [SerializeField]
+    Text fatigueText;
 
     bool _canRest = false;              // represents if the player has worked long enough to earn rest bonus
     bool _restBonusEarned = false;      // represents if the player has rested long eouugh to earn rest bonus
     bool _resting = false;              // represents whether the player is currently resting
     float _timeDifference = 0;
     int _score = 0;
+
+    int _fatigueVal = 50;
+    int tapTracker = 0;
+    float _timeSinceFirstTap = 0;
 
     // Start is called before the first frame update
     void Start()
@@ -68,6 +76,22 @@ public class ButtonScoreManager : MonoBehaviour
                 }
             }
         }
+
+        // Fatigue Level Tracking
+
+        // reset tapTracker every 10 taps
+        if(tapTracker == 10){
+            Debug.Log("Time Since First Tap: " + _timeSinceFirstTap);
+            if(_timeSinceFirstTap <= RequiredFatigueTriggerTime){
+                _fatigueVal--;
+            }
+
+            tapTracker = 0;
+            _timeSinceFirstTap = 0;
+        }
+        else{
+            _timeSinceFirstTap += Time.deltaTime;
+        }
         
     }
 
@@ -85,5 +109,7 @@ public class ButtonScoreManager : MonoBehaviour
         }
         _score += score;
         scoreText.text = _score.ToString();
+
+        tapTracker++;
     }
 }
