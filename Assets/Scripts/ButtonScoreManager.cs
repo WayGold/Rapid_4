@@ -39,6 +39,7 @@ public class ButtonScoreManager : MonoBehaviour
     int tapTracker = 0;
     int flowTracker = 0;
     float _timeSinceFirstTap = 0;
+    float _timeSinceLastTap = 0;
 
     // Start is called before the first frame update
     void Start()
@@ -104,16 +105,26 @@ public class ButtonScoreManager : MonoBehaviour
         
         // Flow Bonus Section, check delta time between every tap
         if(flowTracker != 0){
-            float deltaTime = Time.deltaTime;
-            if(deltaTime >= RequiredFlowTapSec - RequiredFlowRange && deltaTime >= RequiredFlowTapSec 
-            + RequiredFlowRange){
+            Debug.Log("Time Since Last Tap: " + _timeSinceLastTap);
+            // Check whether the delta time of two taps is in range
+            if(_timeSinceLastTap >= RequiredFlowTapSec - RequiredFlowRange && 
+                _timeSinceLastTap <= RequiredFlowTapSec + RequiredFlowRange){
                 Debug.Log("FLOW BONUS ACTIVE!");
+                // Set bonus flag to true and reset timer
                 _flowBonusEarned = true;
+                _timeSinceLastTap = 0;
             }
             else{
+                // Turn off bonus flag if not in range
                 _flowBonusEarned = false;
             }
+            // Reset Tracker and timer
             flowTracker = 0;
+            _timeSinceLastTap = 0;
+        }
+        else{
+            // Calc The Time Past Since Last Tap
+            _timeSinceLastTap += Time.deltaTime;
         }
 
 
