@@ -39,7 +39,6 @@ public class ButtonScoreManager : MonoBehaviour
     int tapTracker = 0;
     int flowTracker = 0;
     float _timeSinceFirstTap = 0;
-    float _timeSinceLastTap = 0;
 
     // Start is called before the first frame update
     void Start()
@@ -108,7 +107,7 @@ public class ButtonScoreManager : MonoBehaviour
             float deltaTime = Time.deltaTime;
             if(deltaTime >= RequiredFlowTapSec - RequiredFlowRange && deltaTime >= RequiredFlowTapSec 
             + RequiredFlowRange){
-                Debug.Log("FLOW BONUS ACTIVE!")
+                Debug.Log("FLOW BONUS ACTIVE!");
                 _flowBonusEarned = true;
             }
             else{
@@ -135,10 +134,10 @@ public class ButtonScoreManager : MonoBehaviour
                 score *= RestBonusMultiplier;
             }
             else if(_flowBonusEarned){
-                score *= _flowBonusEarned;
+                score *= FlowBonusMultiplier;
             }
             else if(_restBonusEarned && _flowBonusEarned){
-                score = score * RestBonusMultiplier * _flowBonusEarned;
+                score = score * RestBonusMultiplier * FlowBonusMultiplier;
             }
             _score += score;
             scoreText.text = _score.ToString();
