@@ -5,7 +5,11 @@ using UnityEngine.UI;
 
 [RequireComponent(typeof(Toggle))]
 public class ToggleTextSwitch : MonoBehaviour
+    
+    
 {
+    
+
     Toggle _toggle;
     Text _toggleText;
 
@@ -24,5 +28,6 @@ public class ToggleTextSwitch : MonoBehaviour
     public void ToggleButton()
     {
         _toggleText.text = _toggle.isOn ? OnText : OffText;
+       
     }
 }

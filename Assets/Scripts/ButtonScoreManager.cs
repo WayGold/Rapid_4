@@ -33,6 +33,7 @@ public class ButtonScoreManager : MonoBehaviour
     bool _restBonusEarned = false;      // represents if the player has rested long eouugh to earn rest bonus
     bool _resting = false;              // represents whether the player is currently resting
     bool _flowBonusEarned = false;
+    bool _didJustTap = false;
 
     float _timeDifference = 0;
     int _score = 0;
@@ -47,17 +48,40 @@ public class ButtonScoreManager : MonoBehaviour
 
     public float GetFatigue() { return _fatigueVal; }
     public float GetScore() { return _score; }
+    public bool GetState() { return _resting; }
+
+    public Animator animator;
 
     // Start is called before the first frame update
     void Start()
     {
         if(characterMaterial != null)
             characterMaterial.SetFloat("Vector1_8fa194bf8cc749bdacb7da5ab0ade932", (float)(_fatigueVal / _maxFatigue));
+
+        GameObject MainChar = GameObject.Find("P4_MainChar");
+        if (MainChar != null)
+        {
+            animator = MainChar.GetComponent<Animator>();
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
+        
+        if (_timeSinceLastTap >= 1.5f)
+        {
+            if (_didJustTap)
+            {
+                animator.SetBool("isWorking", true);
+                _didJustTap = false;
+            }
+            else
+            {
+                animator.SetBool("isWorking", false);
+            }
+            
+        }
         if(_resting)
         {
             if(_canRest && !_restBonusEarned)
@@ -94,6 +118,7 @@ public class ButtonScoreManager : MonoBehaviour
                 }
             }
         }
+
 
         // Fatigue Level Tracking
 
@@ -144,7 +169,10 @@ public class ButtonScoreManager : MonoBehaviour
             ToggleResting();
         }
 
+    
     }
+
+
 
     private void DecrementFatigueLvl(){
         if(_fatigueVal >= 50)
@@ -154,17 +182,27 @@ public class ButtonScoreManager : MonoBehaviour
             }
     }
 
+
+   
     public void ToggleResting()
     {
         if(!_resting){
             DecrementFatigueLvl();
+            
         }
         _resting = !_resting;
     }
 
-    public void OnButtonPress()
+  
+
+  
+    public void OnButtonPress() 
     {
-        if(!_resting)
+        _didJustTap = true;
+        //animator.speed *= 1.1f;
+        animator.SetBool("isWorking", true);
+        if (!_resting)
+            
         {
             int score = 1;
             if(_restBonusEarned)
@@ -179,9 +217,11 @@ public class ButtonScoreManager : MonoBehaviour
             }
             _score += score;
             scoreText.text = _score.ToString();
-
+            
             tapTracker++;
             flowTracker++;
         }
     }
+    
+ 
 }
