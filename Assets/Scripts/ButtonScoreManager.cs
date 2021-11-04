@@ -51,7 +51,8 @@ public class ButtonScoreManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        characterMaterial.SetFloat("Vector1_8fa194bf8cc749bdacb7da5ab0ade932", (float)(_fatigueVal / _maxFatigue));
+        if(characterMaterial != null)
+            characterMaterial.SetFloat("Vector1_8fa194bf8cc749bdacb7da5ab0ade932", (float)(_fatigueVal / _maxFatigue));
     }
 
     // Update is called once per frame
@@ -134,11 +135,12 @@ public class ButtonScoreManager : MonoBehaviour
             _timeSinceLastTap += Time.deltaTime;
         }
 
-        characterMaterial.SetFloat("Vector1_8fa194bf8cc749bdacb7da5ab0ade932", (float)(_fatigueVal / _maxFatigue));
+        if(characterMaterial != null)
+            characterMaterial.SetFloat("Vector1_8fa194bf8cc749bdacb7da5ab0ade932", (float)(_fatigueVal / _maxFatigue));
 
         // Force Rest When Fatigue Level Reaches Max
         if(_fatigueVal >= _maxFatigue){
-            Debug.Log("Fatigue Max! Force Rest!")
+            Debug.Log("Fatigue Max! Force Rest!");
             ToggleResting();
         }
 
