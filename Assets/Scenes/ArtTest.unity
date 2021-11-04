@@ -1354,10 +1354,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   RestBonusMultiplier: 10
+  FlowBonusMultiplier: 0
   RestBonusLength: 3
   RequiredRestTime: 3
   RequiredWorkTime: 3
+  RequiredFatigueTriggerTime: 0
+  RequiredFlowRange: 0
+  RequiredFlowTapSec: 0
   scoreText: {fileID: 942327251}
+  fatigueText: {fileID: 0}
+  characterMaterial: {fileID: 2100000, guid: fcf3cfd0a3c66d643847cca36aa90a4a, type: 2}
 --- !u!4 &2012058366
 Transform:
   m_ObjectHideFlags: 0
