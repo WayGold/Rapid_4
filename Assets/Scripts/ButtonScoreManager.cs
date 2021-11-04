@@ -26,6 +26,8 @@ public class ButtonScoreManager : MonoBehaviour
     Text scoreText;
     [SerializeField]
     Text fatigueText;
+    [SerializeField]
+    Material characterMaterial;
 
     bool _canRest = false;              // represents if the player has worked long enough to earn rest bonus
     bool _restBonusEarned = false;      // represents if the player has rested long eouugh to earn rest bonus
@@ -36,6 +38,8 @@ public class ButtonScoreManager : MonoBehaviour
     int _score = 0;
 
     int _fatigueVal = 50;
+    int _maxFatigue = 100;
+
     int tapTracker = 0;
     int flowTracker = 0;
     float _timeSinceFirstTap = 0;
@@ -47,7 +51,7 @@ public class ButtonScoreManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        characterMaterial.SetFloat("Vector1_8fa194bf8cc749bdacb7da5ab0ade932", (float)(_fatigueVal / _maxFatigue));
     }
 
     // Update is called once per frame
@@ -96,7 +100,7 @@ public class ButtonScoreManager : MonoBehaviour
         if(tapTracker >= 10){
             Debug.Log("Time Since First Tap: " + _timeSinceFirstTap);
             if(_timeSinceFirstTap <= RequiredFatigueTriggerTime){
-                _fatigueVal--;
+                _fatigueVal++;
                 fatigueText.text = _fatigueVal.ToString();
             }
             tapTracker = 0;
@@ -130,11 +134,29 @@ public class ButtonScoreManager : MonoBehaviour
             _timeSinceLastTap += Time.deltaTime;
         }
 
+        characterMaterial.SetFloat("Vector1_8fa194bf8cc749bdacb7da5ab0ade932", (float)(_fatigueVal / _maxFatigue));
 
+        // Force Rest When Fatigue Level Reaches Max
+        if(_fatigueVal >= _maxFatigue){
+            Debug.Log("Fatigue Max! Force Rest!")
+            ToggleResting();
+        }
+
+    }
+
+    private void DecrementFatigueLvl(){
+        if(_fatigueVal >= 50)
+                _fatigueVal = _fatigueVal - 50; 
+            else{
+                _fatigueVal = 0;
+            }
     }
 
     public void ToggleResting()
     {
+        if(!_resting){
+            DecrementFatigueLvl();
+        }
         _resting = !_resting;
     }
 
