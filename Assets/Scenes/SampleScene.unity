@@ -1255,7 +1255,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 958c3d17f8b477e429587c192aba18d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  RWSeconds2GW15Min: 5
+  RWSeconds2GW15Min: 1
   WorkStartTime: 8
   WorkEndTime: 16
   OnTimeUpdate:
@@ -1273,3 +1273,4 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  scoreManager: {fileID: 2012058365}

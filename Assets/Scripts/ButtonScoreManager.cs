@@ -31,6 +31,9 @@ public class ButtonScoreManager : MonoBehaviour
     int tapTracker = 0;
     float _timeSinceFirstTap = 0;
 
+    public float GetFatigue() { return _fatigueVal; }
+    public float GetScore() { return _score; }
+
     // Start is called before the first frame update
     void Start()
     {
