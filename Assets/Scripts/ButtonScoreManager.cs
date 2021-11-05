@@ -54,6 +54,8 @@ public class ButtonScoreManager : MonoBehaviour
     public bool GetState() { return _resting; }
 
     public Animator animator;
+    public Animator animator2;
+    
 
     // Start is called before the first frame update
     void Start()
@@ -62,9 +64,11 @@ public class ButtonScoreManager : MonoBehaviour
             characterMaterial.SetFloat("Vector1_8fa194bf8cc749bdacb7da5ab0ade932", (float)(_fatigueVal / _maxFatigue));
 
         GameObject MainChar = GameObject.Find("P4_MainChar");
+        GameObject Chair = GameObject.Find("P4_ChairColor");
         if (MainChar != null)
         {
-            animator = MainChar.GetComponent<Animator>();
+            animator = MainChar.GetComponent<Animator>(); 
+            animator2 = Chair.GetComponent<Animator>();
         }
 
         if(ClickFlowEvent == null)
@@ -88,11 +92,26 @@ public class ButtonScoreManager : MonoBehaviour
             {
                 animator.SetBool("isWorking", false);
             }
+
+            if (_resting)
+            {
+                animator.SetBool("isResting", true);
+                new WaitForSeconds(5f);
+                animator2.SetBool("isResting", true);
+            }
+            else
+            {
+                animator.SetBool("isResting", false);
+                new WaitForSeconds(5f);
+                animator2.SetBool("isResting", false);
+            }
+                   
             
         }
         if(_resting)
         {
-            if(_canRest && !_restBonusEarned)
+            
+            if (_canRest && !_restBonusEarned)
             { 
                 _timeDifference += Time.deltaTime;
                 if(_timeDifference >= RequiredRestTime)
