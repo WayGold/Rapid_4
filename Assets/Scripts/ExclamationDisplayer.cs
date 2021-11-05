@@ -17,19 +17,26 @@ public class ExclamationDisplayer : MonoBehaviour
     Sprite SlowSprite;
     [SerializeField]
     Sprite GoodSprite;
+    [SerializeField]
+    ButtonScoreManager mgr;
+    //[SerializeField]
+    //TouchEvent tch;
 
     [SerializeField]
     Transform[] DrawPositions;
 
 
     int _currentClickCount;
-    //float _displayTimer;
+    List<float> _inputTimings;
 
     // Start is called before the first frame update
     void Start()
     {
         _renderer = GetComponent<SpriteRenderer>();
         _renderer.enabled = false;
+        _inputTimings = new List<float>();
+        mgr.ClickFlowEvent.AddListener(InputTimingRecieved);
+        //tch.OnTouch.AddListener(OnClick);
     }
 
     public void OnClick()
@@ -47,14 +54,40 @@ public class ExclamationDisplayer : MonoBehaviour
         int idx = Random.Range(0, DrawPositions.Length - 1);
         transform.position = DrawPositions[idx].position;
         transform.rotation = DrawPositions[idx].rotation;
-        _renderer.sprite = GoodSprite;
+        var avgTiming = CalculateAvgTiming();
+        Debug.Log("Avg Timing: " + avgTiming);
+        if(avgTiming <= -0.5)
+        {
+            _renderer.sprite = FastSprite;
+        }
+        else if (avgTiming >= 0.5)
+        {
+            _renderer.sprite = SlowSprite;
+        }
+        else
+        {
+            _renderer.sprite = GoodSprite;
+        }
         _renderer.enabled = true;
         yield return new WaitForSeconds(DisplayTime);
         _renderer.enabled = false;
     }
 
-    // Update is called once per frame
-    void Update()
+    float CalculateAvgTiming()
     {
+        float avg = 0;
+        foreach(var item in _inputTimings)
+        {
+            avg += item;
+        }
+        avg /= _inputTimings.Count;
+        _inputTimings.Clear();
+        return avg;
+    }
+
+    public void InputTimingRecieved(int timing)
+    {
+        Debug.Log("Adding: " + timing);
+        _inputTimings.Add(timing);
     }
 }

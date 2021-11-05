@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 
+
 public class ButtonScoreManager : MonoBehaviour
 {
     [SerializeField, Tooltip("The Multiplier that the player recieves when the rest bonus is active")]
@@ -28,6 +29,8 @@ public class ButtonScoreManager : MonoBehaviour
     Text fatigueText;
     [SerializeField]
     Material characterMaterial;
+
+    public UnityEvent<int> ClickFlowEvent;
 
     bool _canRest = false;              // represents if the player has worked long enough to earn rest bonus
     bool _restBonusEarned = false;      // represents if the player has rested long eouugh to earn rest bonus
@@ -62,6 +65,11 @@ public class ButtonScoreManager : MonoBehaviour
         if (MainChar != null)
         {
             animator = MainChar.GetComponent<Animator>();
+        }
+
+        if(ClickFlowEvent == null)
+        {
+            ClickFlowEvent = new UnityEvent<int>();
         }
     }
 
@@ -124,7 +132,7 @@ public class ButtonScoreManager : MonoBehaviour
 
         // reset tapTracker every 10 taps
         if(tapTracker >= 10){
-            Debug.Log("Time Since First Tap: " + _timeSinceFirstTap);
+            //Debug.Log("Time Since First Tap: " + _timeSinceFirstTap);
             if(_timeSinceFirstTap <= RequiredFatigueTriggerTime){
                 _fatigueVal++;
                 fatigueText.text = _fatigueVal.ToString();
@@ -138,7 +146,7 @@ public class ButtonScoreManager : MonoBehaviour
         
         // Flow Bonus Section, check delta time between every tap
         if(flowTracker != 0){
-            Debug.Log("Time Since Last Tap: " + _timeSinceLastTap);
+           // Debug.Log("Time Since Last Tap: " + _timeSinceLastTap);
             // Check whether the delta time of two taps is in range
             if(_timeSinceLastTap >= RequiredFlowTapSec - RequiredFlowRange && 
                 _timeSinceLastTap <= RequiredFlowTapSec + RequiredFlowRange){
@@ -202,8 +210,23 @@ public class ButtonScoreManager : MonoBehaviour
         //animator.speed *= 1.1f;
         animator.SetBool("isWorking", true);
         if (!_resting)
-            
         {
+            int TapResult = 0;
+            if(_timeSinceLastTap < RequiredFlowTapSec - RequiredFlowRange)
+            {
+                TapResult = -1;
+                Debug.Log("TOO FAST");
+            }
+            else if (_timeSinceLastTap > RequiredFlowTapSec + RequiredFlowRange)
+            {
+                TapResult = 1;
+                Debug.Log("TOO SLOW");
+            }
+            else
+            {
+                Debug.Log("GREAT");
+            }
+
             int score = 1;
             if(_restBonusEarned)
             {
@@ -220,6 +243,8 @@ public class ButtonScoreManager : MonoBehaviour
             
             tapTracker++;
             flowTracker++;
+
+            ClickFlowEvent.Invoke(TapResult);
         }
     }
     
