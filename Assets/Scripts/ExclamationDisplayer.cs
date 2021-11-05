@@ -17,10 +17,6 @@ public class ExclamationDisplayer : MonoBehaviour
     Sprite SlowSprite;
     [SerializeField]
     Sprite GoodSprite;
-    [SerializeField]
-    ButtonScoreManager mgr;
-    //[SerializeField]
-    //TouchEvent tch;
 
     [SerializeField]
     Transform[] DrawPositions;
@@ -35,8 +31,6 @@ public class ExclamationDisplayer : MonoBehaviour
         _renderer = GetComponent<SpriteRenderer>();
         _renderer.enabled = false;
         _inputTimings = new List<float>();
-        mgr.ClickFlowEvent.AddListener(InputTimingRecieved);
-        //tch.OnTouch.AddListener(OnClick);
     }
 
     public void OnClick()
@@ -55,7 +49,6 @@ public class ExclamationDisplayer : MonoBehaviour
         transform.position = DrawPositions[idx].position;
         transform.rotation = DrawPositions[idx].rotation;
         var avgTiming = CalculateAvgTiming();
-        Debug.Log("Avg Timing: " + avgTiming);
         if(avgTiming <= -0.5)
         {
             _renderer.sprite = FastSprite;
@@ -87,7 +80,6 @@ public class ExclamationDisplayer : MonoBehaviour
 
     public void InputTimingRecieved(int timing)
     {
-        Debug.Log("Adding: " + timing);
         _inputTimings.Add(timing);
     }
 }
