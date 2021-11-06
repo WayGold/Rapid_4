@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Timers;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
@@ -96,13 +97,13 @@ public class ButtonScoreManager : MonoBehaviour
             if (_resting)
             {
                 animator.SetBool("isResting", true);
-                new WaitForSeconds(5f);
-                animator2.SetBool("isResting", true);
+                Invoke("ChangeAnimatior2isResting",0.3f);
+                
+                
             }
             else
             {
                 animator.SetBool("isResting", false);
-                new WaitForSeconds(5f);
                 animator2.SetBool("isResting", false);
             }
                    
@@ -266,6 +267,10 @@ public class ButtonScoreManager : MonoBehaviour
             ClickFlowEvent.Invoke(TapResult);
         }
     }
-    
+
+    void ChangeAnimatior2isResting()
+    {
+        animator2.SetBool("isResting", true);
+    }
  
 }
