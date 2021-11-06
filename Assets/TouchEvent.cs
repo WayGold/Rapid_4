@@ -25,5 +25,11 @@ public class TouchEvent : MonoBehaviour
                 OnTouch.Invoke();
             }
         }
+#if DEBUG
+        if (Input.GetMouseButtonDown(0))
+        {
+            OnTouch.Invoke();
+        }
+#endif
     }
 }
