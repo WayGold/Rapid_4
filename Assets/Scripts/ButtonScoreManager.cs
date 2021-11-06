@@ -138,7 +138,7 @@ public class ButtonScoreManager : MonoBehaviour
 
         // Force Rest When Fatigue Level Reaches Max
         if(_fatigueVal >= _maxFatigue){
-            Debug.Log("Fatigue Max! Force Rest!")
+            Debug.Log("Fatigue Max! Force Rest!");
             ToggleResting();
         }
 
