@@ -32,7 +32,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: a71846e82f262c64eb347e248e8f1de4, type: 3}
+        m_Texture: {fileID: 2800000, guid: 812001185ee1b4147aabb49c8a0eb4cc, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex_1:
@@ -52,7 +52,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
-    - Vector1_8fa194bf8cc749bdacb7da5ab0ade932: 1
+    - Vector1_8fa194bf8cc749bdacb7da5ab0ade932: 0.847
     - Vector1_e6ff11038517439fa7149414c502582f: 1.5
     m_Colors: []
   m_BuildTextureStacks: []
