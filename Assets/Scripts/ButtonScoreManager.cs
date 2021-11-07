@@ -42,8 +42,8 @@ public class ButtonScoreManager : MonoBehaviour
     float _timeDifference = 0;
     int _score = 0;
 
-    int _fatigueVal = 50;
-    int _maxFatigue = 100;
+    float _fatigueVal = 50;
+    float _maxFatigue = 100;
 
     int tapTracker = 0;
     int flowTracker = 0;
@@ -61,8 +61,15 @@ public class ButtonScoreManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        if(characterMaterial != null)
-            characterMaterial.SetFloat("Vector1_8fa194bf8cc749bdacb7da5ab0ade932", (float)(_fatigueVal / _maxFatigue));
+        if(characterMaterial != null){
+            Debug.Log("Current Fatigue Val: " + _fatigueVal + "\nCurrent Max Fatigue: " + _maxFatigue);
+            Debug.Log("\nResult to Set: " + (_fatigueVal / _maxFatigue));
+            Debug.Log("\nCharacter Material Not Null...\nSetting Slider to Value: " + 
+                        (float)(1 - (_fatigueVal / _maxFatigue)));
+
+            characterMaterial.SetFloat("Vector1_8fa194bf8cc749bdacb7da5ab0ade932", 
+                                        (float)(1 - _fatigueVal / _maxFatigue));
+        }
 
         GameObject MainChar = GameObject.Find("P4_MainChar");
         GameObject Chair = GameObject.Find("P4_ChairColor");
@@ -189,7 +196,8 @@ public class ButtonScoreManager : MonoBehaviour
         }
 
         if(characterMaterial != null)
-            characterMaterial.SetFloat("Vector1_8fa194bf8cc749bdacb7da5ab0ade932", (float)(_fatigueVal / _maxFatigue));
+            characterMaterial.SetFloat("Vector1_8fa194bf8cc749bdacb7da5ab0ade932", 
+                                        (float)(1 - _fatigueVal / _maxFatigue));
 
         // Force Rest When Fatigue Level Reaches Max
         if(_fatigueVal >= _maxFatigue){
@@ -254,6 +262,7 @@ public class ButtonScoreManager : MonoBehaviour
             }
             else if(_flowBonusEarned){
                 score *= FlowBonusMultiplier;
+                Debug.Log("Increasing Score to" + score);
             }
             else if(_restBonusEarned && _flowBonusEarned){
                 score = score * RestBonusMultiplier * FlowBonusMultiplier;
