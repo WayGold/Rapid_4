@@ -2821,6 +2821,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4ae68f9ed8edeb41b152f39c65b1b0b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mgr: {fileID: 2012058365}
   OnTouch:
     m_PersistentCalls:
       m_Calls:

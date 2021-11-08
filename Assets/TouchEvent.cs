@@ -5,6 +5,8 @@ using UnityEngine.Events;
 
 public class TouchEvent : MonoBehaviour
 {
+    [SerializeField]
+    ButtonScoreManager mgr;
     public UnityEvent OnTouch;
 
     void Start()
@@ -18,18 +20,21 @@ public class TouchEvent : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        foreach(Touch touch in Input.touches)
+        if(!mgr.GetState())
         {
-            if(touch.phase == TouchPhase.Began)
+            foreach(Touch touch in Input.touches)
+            {
+                if(touch.phase == TouchPhase.Began)
+                {
+                    OnTouch.Invoke();
+                }
+            }
+    #if DEBUG
+            if (Input.GetMouseButtonDown(0))
             {
                 OnTouch.Invoke();
             }
+    #endif
         }
-#if DEBUG
-        if (Input.GetMouseButtonDown(0))
-        {
-            OnTouch.Invoke();
-        }
-#endif
     }
 }
