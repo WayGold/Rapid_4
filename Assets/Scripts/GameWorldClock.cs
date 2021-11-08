@@ -11,7 +11,7 @@ public class GameWorldClock : MonoBehaviour
     void Start()
     {
         textField = GetComponent<Text>();
-        textField.text = "Time: " + Decimal2Time(0);
+        textField.text = Decimal2Time(0);
     }
 
     // Update is called once per frame
@@ -44,6 +44,6 @@ public class GameWorldClock : MonoBehaviour
 
     public void UpdateClockText(float newTime)
     {
-        textField.text = "Time: " + Decimal2Time(newTime);
+        textField.text = Decimal2Time(newTime);
     }
 }
